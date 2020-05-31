@@ -6,7 +6,7 @@ export default {
     height: "40vmin"
   },
   header: {
-    backgroundColor: "#393d45",
+    backgroundColor: "#5b5f67",
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",

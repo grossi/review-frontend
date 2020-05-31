@@ -1,8 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import { TextField } from '@material-ui/core';
+import { Query, Mutation } from 'react-apollo';
+import { TextField, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import styles from './AppStyle';
 
@@ -16,8 +16,20 @@ const GET_REVIEWS = gql`
   }
 `;
 
+const ADD_REVIEW = gql`
+  mutation ADD_REVIEW($title: String, $text: String!) {
+    addReview( title:$title, text:$text ) {
+      id
+      title
+      text
+    }
+  }
+`; 
+
+
 function App(props) {
   const { classes } = props;
+  let titleInput, textInput;
   return (
     <div className={classes.root}>
       <header className={classes.header}>
@@ -41,11 +53,44 @@ function App(props) {
             )
           }}
         </Query>
-        <form noValidate autoComplete="off">
-          <TextField id="standard-basic" label="Standard" />
-          <TextField id="filled-basic" label="Filled" variant="filled" />
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        </form>
+        <Mutation mutation={ADD_REVIEW} refetchQueries={[GET_REVIEWS]}>
+        {(addReview) => { 
+          return (
+            <form noValidate autoComplete="off"
+              onSubmit={()=>{
+                addReview({ variables: {title: titleInput, text: textInput} })
+              }}
+            >
+              <div>
+                <TextField 
+                  label="Title" 
+                  fullWidth 
+                  margin="dense"
+                  variant="outlined" 
+                  size="small" 
+                  value={titleInput}
+                  onInput={ e=>titleInput=e.target.value}
+                />
+                <TextField 
+                  label="Text"
+                  fullWidth
+                  margin="dense"
+                  variant="outlined" 
+                  multiline={true} 
+                  rows={5} 
+                  value={textInput}
+                  onInput={ e=>textInput=e.target.value}
+                />
+              </div>
+              <Button
+                fullWidth
+                size="large"
+                type="submit"
+              > Post </Button>
+            </form>
+          );
+        }}
+        </Mutation>
       </header>
     </div>
   );
