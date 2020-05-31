@@ -53,12 +53,15 @@ function App(props) {
             )
           }}
         </Query>
-        <Mutation mutation={ADD_REVIEW} refetchQueries={[GET_REVIEWS]}>
+        <Mutation mutation={ADD_REVIEW} refetchQueries={[{query: GET_REVIEWS}]}>
         {(addReview) => { 
           return (
             <form noValidate autoComplete="off"
-              onSubmit={()=>{
-                addReview({ variables: {title: titleInput, text: textInput} })
+              onSubmit={(e)=>{
+                e.preventDefault();
+                addReview({ variables: {title: titleInput, text: textInput} });
+                titleInput = '';
+                textInput = '';
               }}
             >
               <div>
