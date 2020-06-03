@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import { TextField, Button } from '@material-ui/core';
@@ -33,7 +32,9 @@ function App(props) {
   return (
     <div className={classes.root}>
       <header className={classes.header}>
-        <img src={logo} className={classes.logo} alt="logo" />
+        <h1> Posts and Stuff </h1>
+      </header>
+      <div className={classes.reviewsBlock}>
         <Query query={GET_REVIEWS}>
           {({ error, data, loading }) => {
             if( error ) {
@@ -44,57 +45,57 @@ function App(props) {
             return (
               <>
                 {data.reviews.map((review, i) => (
-                  <div key={i}>
-                    <p>{review.title}</p>
-                    <p>{review.text}</p>
+                  <div className={classes.reviewBlock} key={i}>
+                    <p className={classes.reviewTitle}>{review.title}</p>
+                    <p className={classes.reviewText}>{review.text}</p>
                   </div>
                 ))}
               </>
             )
           }}
         </Query>
-        <Mutation mutation={ADD_REVIEW} refetchQueries={[{query: GET_REVIEWS}]}>
-        {(addReview) => { 
-          return (
-            <form noValidate autoComplete="off"
-              onSubmit={(e)=>{
-                e.preventDefault();
-                addReview({ variables: {title: titleInput, text: textInput} });
-                titleInput = '';
-                textInput = '';
-              }}
-            >
-              <div>
-                <TextField 
-                  label="Title" 
-                  fullWidth 
-                  margin="dense"
-                  variant="outlined" 
-                  size="small" 
-                  value={titleInput}
-                  onInput={ e=>titleInput=e.target.value}
-                />
-                <TextField 
-                  label="Text"
-                  fullWidth
-                  margin="dense"
-                  variant="outlined" 
-                  multiline={true} 
-                  rows={5} 
-                  value={textInput}
-                  onInput={ e=>textInput=e.target.value}
-                />
-              </div>
-              <Button
+      </div>
+      <Mutation mutation={ADD_REVIEW} refetchQueries={[{query: GET_REVIEWS}]}>
+      {(addReview) => { 
+        return (
+          <form noValidate autoComplete="off"
+            onSubmit={(e)=>{
+              e.preventDefault();
+              addReview({ variables: {title: titleInput, text: textInput} });
+              titleInput = '';
+              textInput = '';
+            }}
+          >
+            <div>
+              <TextField 
+                label="Title" 
+                fullWidth 
+                margin="dense"
+                variant="outlined" 
+                size="small" 
+                value={titleInput}
+                onInput={ e=>titleInput=e.target.value}
+              />
+              <TextField 
+                label="Text"
                 fullWidth
-                size="large"
-                type="submit"
-              > Post </Button>
-            </form>
-          );
-        }}
-        </Mutation>
-      </header>
+                margin="dense"
+                variant="outlined" 
+                multiline={true} 
+                rows={5} 
+                value={textInput}
+                onInput={ e=>textInput=e.target.value}
+              />
+            </div>
+            <Button
+              fullWidth
+              size="large"
+              type="submit"
+            > Post </Button>
+          </form>
+        );
+      }}
+      </Mutation>
     </div>
   );
 }
