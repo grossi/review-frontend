@@ -30,5 +30,8 @@ export default {
   reviewsBlock: {
     maxHeight: '67vh',
     overflow: 'auto'
+  },
+  submitButton: {
+    backgroundColor: "cadetblue"
   }
 }

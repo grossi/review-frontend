@@ -91,6 +91,7 @@ function App(props) {
               fullWidth
               size="large"
               type="submit"
+              className={classes.submitButton}
             > Post </Button>
           </form>
         );
