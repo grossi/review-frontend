@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import { TextField, Button } from '@material-ui/core';
@@ -28,7 +28,8 @@ const ADD_REVIEW = gql`
 
 function App(props) {
   const { classes } = props;
-  let titleInput, textInput;
+  const [ titleInput, setTitleInput ] = useState('');
+  const [ textInput, setTextInput ] = useState('');
   return (
     <div className={classes.root}>
       <header className={classes.header}>
@@ -57,13 +58,14 @@ function App(props) {
       </div>
       <Mutation mutation={ADD_REVIEW} refetchQueries={[{query: GET_REVIEWS}]}>
       {(addReview) => { 
+        console.log("title and text", titleInput, textInput);
         return (
           <form noValidate autoComplete="off"
             onSubmit={(e)=>{
               e.preventDefault();
               addReview({ variables: {title: titleInput, text: textInput} });
-              titleInput = '';
-              textInput = '';
+              setTitleInput('');
+              setTextInput('');
             }}
           >
             <div>
@@ -74,7 +76,7 @@ function App(props) {
                 variant="outlined" 
                 size="small" 
                 value={titleInput}
-                onInput={ e=>titleInput=e.target.value}
+                onChange={ e=>setTitleInput(e.target.value)}
               />
               <TextField 
                 label="Text"
@@ -84,7 +86,7 @@ function App(props) {
                 multiline={true} 
                 rows={5} 
                 value={textInput}
-                onInput={ e=>textInput=e.target.value}
+                onChange={ e=>setTextInput(e.target.value)}
               />
             </div>
             <Button
