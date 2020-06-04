@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import { TextField, Button } from '@material-ui/core';
@@ -30,12 +30,21 @@ function App(props) {
   const { classes } = props;
   const [ titleInput, setTitleInput ] = useState('');
   const [ textInput, setTextInput ] = useState('');
+  
+  const messagesEndRef = useRef(null)
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(()=>{scrollToBottom()});
+
   return (
     <div className={classes.root}>
       <header className={classes.header}>
         <h1> Posts and Stuff </h1>
       </header>
-      <div className={classes.reviewsBlock}>
+      <div className={classes.reviewsBlock} id={"reviewsBlock"}>
         <Query query={GET_REVIEWS}>
           {({ error, data, loading }) => {
             if( error ) {
@@ -55,10 +64,10 @@ function App(props) {
             )
           }}
         </Query>
+        <div ref={messagesEndRef} />
       </div>
       <Mutation mutation={ADD_REVIEW} refetchQueries={[{query: GET_REVIEWS}]}>
       {(addReview) => { 
-        console.log("title and text", titleInput, textInput);
         return (
           <form noValidate autoComplete="off"
             onSubmit={(e)=>{
