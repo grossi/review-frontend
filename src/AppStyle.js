@@ -1,12 +1,17 @@
 export default {
+  backDrop: {
+    backgroundColor: "#8ec4f5",
+  },
   root: {
     textAlign: "center",
-    backgroundColor: "#def",
+    backgroundColor: "#d9eafa",
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-    paddingLeft: "20vw",
-    paddingRight: "20vw",
+    marginLeft: "20vw",
+    marginRight: "20vw",
+    paddingRight: "15px",
+    paddingLeft: "15px",
     color: "#333"
   },
   header: {
@@ -33,6 +38,6 @@ export default {
     overflow: 'auto'
   },
   submitButton: {
-    backgroundColor: "cadetblue"
+    backgroundColor: "#82b7e8"
   }
 }
