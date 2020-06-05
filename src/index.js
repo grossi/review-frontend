@@ -7,8 +7,17 @@ import { ApolloProvider } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import * as serviceWorker from './serviceWorker';
+import dotenv from 'dotenv';
 
-const uri = "http://localhost:4000/graphql";
+dotenv.config();
+
+let uri;
+
+if( process.env.REACT_APP_BACKEND_SERVER ) {
+  uri = process.env.REACT_APP_BACKEND_SERVER;
+} else {
+  uri = 'http://localhost:4000/graphql';
+}
 
 const httpLink = createHttpLink({ uri });
 
