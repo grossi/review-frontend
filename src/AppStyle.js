@@ -17,7 +17,8 @@ export default {
   reviewText: {
     textAlign: "left",
     fontSize: "medium",
-    marginLeft: "10px"
+    marginLeft: "10px",
+    whiteSpace: "pre-wrap"
   },
   reviewTitle: {
     textAlign: "left",
