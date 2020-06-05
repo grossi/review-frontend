@@ -34,7 +34,7 @@ function App(props) {
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    messagesEndRef.current.scrollIntoView()
   }
 
   useEffect(()=>{scrollToBottom()});
@@ -46,7 +46,7 @@ function App(props) {
           <h1> Posts and Stuff </h1>
         </header>
         <div className={classes.reviewsBlock} id={"reviewsBlock"}>
-          <Query query={GET_REVIEWS} pollInterval={1000}>
+          <Query query={GET_REVIEWS} pollInterval={1000} onCompleted={scrollToBottom}>
             {({ error, data, loading }) => {
               if( error ) {
                 console.log("er", error);
@@ -67,7 +67,12 @@ function App(props) {
           </Query>
           <div ref={messagesEndRef} />
         </div>
-        <Mutation mutation={ADD_REVIEW} refetchQueries={[{query: GET_REVIEWS}]}>
+        <Mutation 
+          mutation={ADD_REVIEW} 
+          refetchQueries={[{query: GET_REVIEWS}]}
+          awaitRefetchQueries
+          onCompleted={scrollToBottom}
+        >
         {(addReview) => { 
           return (
             <form noValidate autoComplete="off"
