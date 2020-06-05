@@ -45,7 +45,7 @@ function App(props) {
         <h1> Posts and Stuff </h1>
       </header>
       <div className={classes.reviewsBlock} id={"reviewsBlock"}>
-        <Query query={GET_REVIEWS}>
+        <Query query={GET_REVIEWS} pollInterval={1000}>
           {({ error, data, loading }) => {
             if( error ) {
               console.log("er", error);
