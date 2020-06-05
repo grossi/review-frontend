@@ -34,7 +34,7 @@ export default {
     width: "100%"
   },
   reviewsBlock: {
-    maxHeight: '67vh',
+    maxHeight: 'Calc(100vh - 310px)',
     overflow: 'auto'
   },
   submitButton: {
